@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QR Code Scanner</title>
+  <script>
+    function generateDeviceId() {
+      return 'device-' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function getDeviceId() {
+      var deviceId = localStorage.getItem('deviceId');
+      if (!deviceId) {
+        deviceId = generateDeviceId();
+        localStorage.setItem('deviceId', deviceId);
+      }
+      return deviceId;
+    }
+
+    function getQueryParam(param) {
+      var urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    function scanQRCode() {
+      var shopName = getQueryParam('shopName');
+      var deviceId = getDeviceId();
+      var scriptUrl = 'https://script.google.com/macros/s/AKfycbw8aMPzqrcUDb6fV3gBLKELvRMGY-pqcOXlj5w82EH-yMcyuCjLCxhKHqRx4sGVMmI7/exec'; // Replace with your actual Deployment ID
+      var url = `${scriptUrl}?shopName=${shopName}&deviceId=${deviceId}`;
+      window.location.href = url;
+    }
+
+    window.onload = function() {
+      scanQRCode();
+    }
+  </script>
+</head>
+<body>
+  <h1>Scanning QR Code...</h1>
+  <p>Redirecting...</p>
+</body>
+</html>
